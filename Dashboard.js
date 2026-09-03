@@ -26,6 +26,7 @@ const savedtickets=JSON.parse(localStorage.getItem("tickets"));
 console.log(savedtickets);
 if (!currentUser) {
     window.location.href = "login.html";
+    throw new Error("User is not logged in");
 }
 
 document.getElementById("userName").textContent = currentUser.name;
