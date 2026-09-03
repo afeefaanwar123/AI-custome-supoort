@@ -1,111 +1,70 @@
-const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-
-if (!currentUser) {
-    window.location.href = "index.html";
-    throw new Error("User is not logged in");
-}
-
-if (!localStorage.getItem("tickets")) {
-    const initialTickets = [
-        { id: 1, customer: "Ali", issue: "Payment failed", priority: "P1", sentiment: "Negative", category: "Payment", status: "Open" },
-        { id: 2, customer: "Sara", issue: "Password reset", priority: "P2", sentiment: "Neutral", category: "Account", status: "Open" }
-    ];
-    localStorage.setItem("tickets", JSON.stringify(initialTickets));
-}
-
-const tickets = JSON.parse(localStorage.getItem("tickets"));
-
-document.getElementById("userName").textContent = currentUser.name;
-document.getElementById("userRole").textContent = currentUser.role;
-
-const logoutButton = document.getElementById("logoutButton");
-logoutButton.addEventListener("click", handleLogout);
-
-function handleLogout() {
-    localStorage.removeItem("currentUser");
-    window.location.href = "index.html";
-}
-
-const ticketsContainer = document.getElementById("ticketsContainer");
-
-tickets.forEach(ticket => {
-    const ticketcard = document.createElement("article");
-    ticketcard.className = "ticket-card";
-    ticketcard.dataset.ticketId = ticket.id;
-
-    ticketcard.innerHTML = `
-        <h3>${ticket.customer}</h3>
-        <p>${ticket.issue}</p>
-        <div class="ticket-details">
-            <span class="priority">${ticket.priority}</span>
-            <span class="sentiment">${ticket.sentiment}</span>
-            <span class="category">${ticket.category}</span>
-            <span class="status">${ticket.status}</span>
-        </div>
-        <button>View Ticket</button>
-    `;
-
-    const viewButton = ticketcard.querySelector("button");
-
-    viewButton.addEventListener("click", () => {
-        alert(`Ticket ID: ${ticket.id}
-Customer: ${ticket.customer}
-Issue: ${ticket.issue}
-Priority: ${ticket.priority}
-Sentiment: ${ticket.sentiment}
-Category: ${ticket.category}
-Status: ${ticket.status}`);
-    });
-
-    ticketsContainer.append(ticketcard);
-});
-
-const searchinput = document.getElementById("searchInput");
-
-searchinput.addEventListener("input", () => {
-    const searchtext = searchinput.value.toLowerCase();
-
-    tickets.forEach(ticket => {
-        const ticketcard = document.querySelector(`[data-ticket-id="${ticket.id}"]`);
-
-        const ticketText = `${ticket.id} ${ticket.customer} ${ticket.issue} ${ticket.priority} ${ticket.sentiment} ${ticket.category} ${ticket.status}`.toLowerCase();
-
-        ticketcard.style.display = ticketText.includes(searchtext) ? "block" : "none";
-    });
-});
-
-const priorityFilter = document.getElementById("priorityFilter");
-
-priorityFilter.addEventListener("change", () => {
-    const priorittext = priorityFilter.value;
-
-    tickets.forEach(ticket => {
-        const ticketcard = document.querySelector(`[data-ticket-id="${ticket.id}"]`);
-        ticketcard.style.display = (priorittext === "" || ticket.priority === priorittext) ? "block" : "none";
-    });
-});
-
-const statusFilter = document.getElementById("statusFilter");
-
-statusFilter.addEventListener("change", () => {
-    const statustext = statusFilter.value;
-
-    tickets.forEach(ticket => {
-        const ticketcard = document.querySelector(`[data-ticket-id="${ticket.id}"]`);
-        ticketcard.style.display = (statustext === "" || ticket.status === statustext) ? "block" : "none";
-    });
-});
-
-document.getElementById("totalTickets").textContent = tickets.length;
-
-let openticketcount = 0;
-tickets.forEach(ticket => {
-    if (ticket.status === "Open") openticketcount++;
-});
-document.getElementById("openTickets").textContent = openticketcount;
-
-let urgentticketcount = 0;
-tickets.forEach(ticket => {
-    if (ticket.priority === "P1") urgentticketcount++;
-});
-document.getElementById("urgentTickets").textContent = urgentticketcount;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Support Desk - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <h2>AI Support Desk</h2>
+      <div>
+    <span id="userName"></span>
+    <span id="userRole"></span>
+   <button type="button" id="logoutButton">Logout</button>
+</div>
+    </nav>
+    <main class="dashboard">
+        <section class="stats">
+<div class="stat">
+    <span>Total</span>
+    <strong id="totalTickets">0</strong>
+</div>
+<div class="stat">
+    <span>Open</span>
+    <strong id="openTickets">0</strong>
+</div>
+<div class="stat">
+    <span>Urgent</span>
+    <strong id="urgentTickets">0</strong>
+</div>
+        </section>
+     <section class="ticket-controls">
+    <input type="text" id="searchInput" placeholder="Search tickets...">
+    <select id="priorityFilter">
+        <option value="">Priority</option>
+        <option value="P1">P1</option>
+        <option value="P2">P2</option>
+        <option value="P3">P3</option>
+        <option value="P4">P4</option>
+    </select>
+    <select id="statusFilter">
+        <option value="">Status</option>
+        <option value="Open">Open</option>
+        <option value="Closed">Closed</option>
+    </select>
+</section>
+        <section class="tickets" id="ticketsContainer">
+</section>
+<section class="ai-support">
+    <h2>AI Customer Support</h2>
+    <div id="chatContainer">
+        <div id="chatMessages"></div>
+    </div>
+    <div class="chat-input">
+        <input
+            type="text"
+            id="userInput"
+            placeholder="Type your message..."
+        >
+        <button type="button" id="sendBtn">Send</button>
+    </div>
+</section>
+    </main>
+  <script src="User.js"></script>
+<script src="AuthService.js"></script>
+<script src="Dashboard.js"></script>
+<script src="AIService.js"></script>
+</body>
+</html>
