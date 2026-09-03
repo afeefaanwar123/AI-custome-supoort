@@ -11,45 +11,62 @@ class AuthService {
 
         console.log(newUser);
 
-        const users = JSON.parse(localStorage.getItem("users")) || [];
+        const users =
+            JSON.parse(localStorage.getItem("users")) || [];
 
-        const existingUser = users.find(user => user.email === email);
+        const existingUser =
+            users.find(user => user.email === email);
 
         if (existingUser) {
+
             console.log("Email already registered");
+
             return;
         }
 
         users.push(newUser);
 
-        localStorage.setItem("users", JSON.stringify(users));
+        localStorage.setItem(
+            "users",
+            JSON.stringify(users)
+        );
+
+        console.log("User saved successfully");
     }
 
 
-  login(email, password) {
+    login(email, password) {
 
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+        const users =
+            JSON.parse(localStorage.getItem("users")) || [];
 
-    console.log("Users:", users);
-    console.log("Entered email:", email);
-    console.log("Entered password:", password);
+        console.log("Users:", users);
+        console.log("Entered email:", email);
+        console.log("Entered password:", password);
 
-    const user = users.find(
-        user => user.email === email && user.password === password
-    );
+        const user = users.find(
+            user =>
+                user.email === email &&
+                user.password === password
+        );
 
-    console.log("Found user:", user);
+        console.log("Found user:", user);
 
-    if (!user) {
-        console.log("Invalid email or password");
-        return;
+        if (!user) {
+
+            console.log("Invalid email or password");
+
+            return;
+        }
+
+        console.log("Login successful");
+
+        localStorage.setItem(
+            "currentUser",
+            JSON.stringify(user)
+        );
+
+        window.location.href = "index.html";
     }
-
-    console.log("Login successful");
-
-    localStorage.setItem("currentUser", JSON.stringify(user));
-
-    window.location.href = "index.html";
-}
 
 }
