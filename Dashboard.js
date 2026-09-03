@@ -47,7 +47,7 @@ tickets.forEach(ticket => {
  
     const ticketcard = document.createElement("article"); 
  
-    ticketcard.dataset.ticketId = ticket.id; 
+   ticketcard.dataset.ticketId = ticket.id;
  
     ticketcard.innerHTML = ` 
         <h3>${ticket.customer}</h3> 
