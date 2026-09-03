@@ -31,7 +31,7 @@ class AuthService {
         }
 
         localStorage.setItem("currentUser", JSON.stringify(user));
-        window.location.href = "dashboard.html";
+        window.location.href = "Dashboard.html";
         return true;
     }
 }
