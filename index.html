@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Support Desk - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <h2>AI Support Desk</h2>
+
+      <div>
+    <span id="userName"></span>
+    <span id="userRole"></span>
+   <button type="button" id="logoutButton">Logout</button>
+</div>
+    </nav>
+
+
+    <main class="dashboard">
+
+        <section class="stats">
+<div class="stat">
+    <span>Total</span>
+    <strong id="totalTickets">0</strong>
+</div>
+
+<div class="stat">
+    <span>Open</span>
+    <strong id="openTickets">0</strong>
+</div>
+
+<div class="stat">
+    <span>Urgent</span>
+    <strong id="urgentTickets">0</strong>
+</div>
+
+        </section>
+
+
+     <section class="ticket-controls">
+
+    <input type="text" id="searchInput" placeholder="Search tickets...">
+
+    <select id="priorityFilter">
+        <option value="">Priority</option>
+        <option value="P1">P1</option>
+        <option value="P2">P2</option>
+        <option value="P3">P3</option>
+        <option value="P4">P4</option>
+    </select>
+
+    <select id="statusFilter">
+        <option value="">Status</option>
+        <option value="Open">Open</option>
+        <option value="Closed">Closed</option>
+    </select>
+
+</section>
+
+        <section class="tickets" id="ticketsContainer">
+</section>
+
+<section class="ai-support">
+
+    <h2>AI Customer Support</h2>
+
+    <div id="chatContainer">
+        <div id="chatMessages"></div>
+    </div>
+
+    <div class="chat-input">
+
+        <input
+            type="text"
+            id="userInput"
+            placeholder="Type your message..."
+        >
+
+        <button type="button" id="sendBtn">Send</button>
+
+    </div>
+
+</section>
+
+
+
+
+
+
+
+    </main>
+
+  <script src="User.js"></script>
+<script src="AuthService.js"></script>
+<script src="Dashboard.js"></script>
+<script src="AIService.js"></script>
+
+
+</body>
+</html>
