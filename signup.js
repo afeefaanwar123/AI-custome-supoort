@@ -4,37 +4,35 @@ const signupButton = document.querySelector(".signup button");
 
 signupButton.addEventListener("click", handleSignup);
 
-signup(name, email, password, role) {
+function handleSignup() {
 
-    const newUser = new User(
+    const name = document.getElementById("signupName").value;
+    const email = document.getElementById("signupEmail").value;
+    const password = document.getElementById("signupPassword").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+    const role = document.getElementById("role").value;
+
+    if (
+        name === "" ||
+        email === "" ||
+        password === "" ||
+        confirmPassword === ""
+    ) {
+        console.log("Please fill all fields");
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        console.log("Passwords do not match");
+        return;
+    }
+
+    authService.signup(
         name,
         email,
         password,
         role
     );
 
-    const users =
-        JSON.parse(localStorage.getItem("users")) || [];
-
-    const existingUser = users.find(
-        user => user.email === email
-    );
-
-    if (existingUser) {
-
-        alert("Email already registered");
-
-        return;
-    }
-
-    users.push(newUser);
-
-    localStorage.setItem(
-        "users",
-        JSON.stringify(users)
-    );
-
-    alert("Signup successful!");
-
-    window.location.href = "login.html";
+    console.log("Signup completed");
 }
