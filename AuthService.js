@@ -1,38 +1,40 @@
 class AuthService {
 
-    signup(name, email, password, role) {
+  signup(name, email, password, role) {
 
-        const newUser = new User(
-            name,
-            email,
-            password,
-            role
-        );
+    const newUser = new User(
+        name,
+        email,
+        password,
+        role
+    );
 
-        console.log(newUser);
+    console.log(newUser);
 
-        const users =
-            JSON.parse(localStorage.getItem("users")) || [];
+    const users =
+        JSON.parse(localStorage.getItem("users")) || [];
 
-        const existingUser =
-            users.find(user => user.email === email);
+    const existingUser =
+        users.find(user => user.email === email);
 
-        if (existingUser) {
+    if (existingUser) {
 
-            console.log("Email already registered");
+        console.log("Email already registered");
 
-            return;
-        }
-
-        users.push(newUser);
-
-        localStorage.setItem(
-            "users",
-            JSON.stringify(users)
-        );
-
-        console.log("User saved successfully");
+        return false;
     }
+
+    users.push(newUser);
+
+    localStorage.setItem(
+        "users",
+        JSON.stringify(users)
+    );
+
+    console.log("User saved successfully");
+
+    return true;
+}
 
 
     login(email, password) {
