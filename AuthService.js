@@ -68,7 +68,7 @@ class AuthService {
             JSON.stringify(user)
         );
 
-        window.location.href = "index.html";
+        window.location.href = "Dashboard.html";
     }
 
 }
