@@ -12,29 +12,25 @@ function handleSignup() {
     const confirmPassword = document.getElementById("confirmPassword").value;
     const role = document.getElementById("role").value;
 
-   
- if(name=="" || email=="" || password=="" || confirmPassword=="" ){
-        console.log("Show an error")
+    if (
+        name === "" ||
+        email === "" ||
+        password === "" ||
+        confirmPassword === ""
+    ) {
+        console.log("Please fill all fields");
         return;
     }
-    if(password!==confirmPassword){
 
-    console.log("passwords are not match");
-    return;
-   }
-   authService.signup(name, email, password, role);
+    if (password !== confirmPassword) {
+        console.log("Passwords do not match");
+        return;
+    }
 
-   
- 
-
-  
-
-   
-
-    // console.log(name);
-    // console.log(email);
-    // console.log(password);
-    // console.log(confirmPassword);
-    // console.log(role);
-    
+    authService.signup(
+        name,
+        email,
+        password,
+        role
+    );
 }
