@@ -27,12 +27,19 @@ function handleSignup() {
         return;
     }
 
-    authService.signup(
+    const result = authService.signup(
         name,
         email,
         password,
         role
     );
 
-    console.log("Signup completed");
+    if (result === false) {
+        alert("Email already registered!");
+        return;
+    }
+
+    alert("Signup successful!");
+
+    window.location.href = "login.html";
 }
