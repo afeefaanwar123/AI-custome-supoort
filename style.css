@@ -117,9 +117,7 @@ body {
 }
 
 
-/* =========================
-   DASHBOARD
-========================= */
+
 
 .dashboard {
     max-width: 1200px;
@@ -128,9 +126,6 @@ body {
 }
 
 
-/* =========================
-   STAT CARDS
-========================= */
 
 .stats {
     display: grid;
@@ -158,9 +153,7 @@ body {
 }
 
 
-/* =========================
-   SEARCH & FILTERS
-========================= */
+
 
 .ticket-controls {
     display: flex;
@@ -187,9 +180,7 @@ body {
 }
 
 
-/* =========================
-   TICKET CARD
-========================= */
+
 
 .tickets {
     display: flex;
@@ -215,9 +206,7 @@ body {
 }
 
 
-/* =========================
-   TICKET BADGES
-========================= */
+
 
 .ticket-details {
     display: flex;
@@ -253,9 +242,7 @@ body {
 }
 
 
-/* =========================
-   VIEW BUTTON
-========================= */
+
 
 .ticket-card button {
     padding: 8px 18px;
@@ -270,10 +257,24 @@ body {
     background-color: #4338ca;
 }
 
+/* ==== small extra polish on ticket cards ==== */
 
-/* =========================
-   MOBILE
-========================= */
+.ticket-card {
+    border-left: 4px solid #4f46e5;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ticket-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.ticket-details span {
+    display: inline-flex;
+    align-items: center;
+}
+
+
 
 @media (max-width: 700px) {
 
