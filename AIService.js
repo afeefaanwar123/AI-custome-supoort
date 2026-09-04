@@ -1,41 +1,70 @@
-export default async function handler(req, res) {
-    if (req.method !== "POST") {
-        return res.status(405).json({ error: "Method not allowed" });
-    }
+console.log("AIService.js is connected!");
 
-    const { message } = req.body;
+class AIService {
+    static async getResponse(message) {
 
-    if (!message) {
-        return res.status(400).json({ error: "Message is required" });
-    }
-
-    try {
-        const response = await fetch(
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "x-goog-api-key": process.env.GEMINI_API_KEY
-                   
-                },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: message }] }]
-                })
-            }
-        );
+        const response = await fetch("/api/gemini", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message })
+        });
 
         const data = await response.json();
 
         if (!response.ok) {
-            return res.status(response.status).json({
-                error: data.error?.message || `Gemini API Error: ${response.status}`
-            });
+            throw new Error(data.error || `Server Error: ${response.status}`);
         }
 
-        return res.status(200).json(data);
+        if (
+            !data.candidates ||
+            data.candidates.length === 0 ||
+            !data.candidates[0].content ||
+            !data.candidates[0].content.parts
+        ) {
+            throw new Error("Gemini returned no answer.");
+        }
 
-    } catch (err) {
-        return res.status(500).json({ error: err.message });
+        return data.candidates[0].content.parts[0].text;
     }
+}
+
+const userInput = document.getElementById("userInput");
+const sendBtn = document.getElementById("sendBtn");
+const chatMessages = document.getElementById("chatMessages");
+
+if (sendBtn) sendBtn.addEventListener("click", sendMessage);
+
+async function sendMessage() {
+    const message = userInput.value.trim();
+    if (message === "") return;
+
+    addMessage(message, "user");
+    userInput.value = "";
+    addMessage("Thinking...", "ai");
+
+    try {
+        const answer = await AIService.getResponse(message);
+        removeThinkingMessage();
+        addMessage(answer, "ai");
+    } catch (error) {
+        console.error("AI Error:", error);
+        removeThinkingMessage();
+        addMessage("Error: " + error.message, "ai");
+    }
+}
+
+function removeThinkingMessage() {
+    const aiMessages = chatMessages.querySelectorAll(".ai");
+    if (aiMessages.length > 0) {
+        const lastMessage = aiMessages[aiMessages.length - 1];
+        if (lastMessage.textContent === "Thinking...") lastMessage.remove();
+    }
+}
+
+function addMessage(message, sender) {
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("message", sender);
+    messageDiv.textContent = message;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 }
