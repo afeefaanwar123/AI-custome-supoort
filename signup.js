@@ -1,15 +1,12 @@
 const authService = new AuthService();
-
 const signupButton = document.querySelector(".signup button");
-
 signupButton.addEventListener("click", handleSignup);
 
 function handleSignup() {
-
-    const name = document.getElementById("signupName").value;
-    const email = document.getElementById("signupEmail").value;
-    const password = document.getElementById("signupPassword").value;
-    const confirmPassword = document.getElementById("confirmPassword").value;
+    const name = document.getElementById("signupName").value.trim();
+    const email = document.getElementById("signupEmail").value.trim();
+    const password = document.getElementById("signupPassword").value.trim();
+    const confirmPassword = document.getElementById("confirmPassword").value.trim();
     const role = document.getElementById("role").value;
 
     if (
@@ -18,21 +15,16 @@ function handleSignup() {
         password === "" ||
         confirmPassword === ""
     ) {
-        console.log("Please fill all fields");
+        alert("Please fill all fields");
         return;
     }
 
     if (password !== confirmPassword) {
-        console.log("Passwords do not match");
+        alert("Passwords do not match");
         return;
     }
 
-    const result = authService.signup(
-        name,
-        email,
-        password,
-        role
-    );
+    const result = authService.signup(name, email, password, role);
 
     if (result === false) {
         alert("Email already registered!");
@@ -40,6 +32,5 @@ function handleSignup() {
     }
 
     alert("Signup successful!");
-
     window.location.href = "index.html";
 }
