@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     if (req.method !== "POST") {
         return res.status(405).json({ error: "Method not allowed" });
     }
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "x-goog-api-key": process.env.process.env.GEMINI_API_KEY
+                    "x-goog-api-key": process.env.GEMINI_API_KEY
                 },
                 body: JSON.stringify({
                     contents: [{ parts: [{ text: message }] }]
@@ -37,4 +37,4 @@ export default async function handler(req, res) {
     } catch (err) {
         return res.status(500).json({ error: err.message });
     }
-}
+};
